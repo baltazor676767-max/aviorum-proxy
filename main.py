@@ -18,7 +18,7 @@ async def ask(prompt: str, api_key: str = Header(...)):
     if api_key not in KEYS or KEYS[api_key] <= 0:
         raise HTTPException(status_code=403, detail="Доступ запрещен")
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={MASTER_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={MASTER_KEY}"
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
     
     try:
