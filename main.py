@@ -15,13 +15,12 @@ async def ask(prompt: str, api_key: str = Header(...)):
     if api_key not in KEYS or KEYS[api_key] <= 0:
         raise HTTPException(status_code=403, detail="Доступ запрещен")
     
-    # Используем официальный путь v1, который гарантированно работает
-    url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={MASTER_KEY}"
+    # Используем модель gemini-1.0-pro (самая стабильная для старых/новых ключей)
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key={MASTER_KEY}"
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
     
     try:
         response = requests.post(url, json=payload, timeout=20)
-        # Если статус не 200, выводим текст от Google
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail=response.text)
         
